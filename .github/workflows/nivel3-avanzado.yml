@@ -1,0 +1,37 @@
+name: Nivel 3 - Multi-Version y Despliegue Firebase
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  matrix-test:
+    name: Prueba en Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probar en Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: node -e "console.log('Compatibilidad verificada en Node ' + process.version)"
+
+  deploy-firebase:
+    name: Despliegue automatico a Firebase
+    needs: matrix-test  # Solo corre si las pruebas anteriores tuvieron exito
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Simular Deploy con Token Seguro
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        run: |
+          echo "Autenticando con secret seguro..."
+          echo "Desplegando en proyecto Firebase: mirrey-erp"
+          # Comando real de produccion:
+          # npx firebase-tools deploy --token "$FIREBASE_TOKEN"

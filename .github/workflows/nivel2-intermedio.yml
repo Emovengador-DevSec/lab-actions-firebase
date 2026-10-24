@@ -1,0 +1,27 @@
+name: Nivel 2 - CI con Node.js
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar version de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci || npm install
+
+      - name: Simular verificacion de codigo
+        run: |
+          echo "Analizando sintaxis y dependencias..."
+          node -v
+          npm -v

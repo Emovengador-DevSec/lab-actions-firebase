@@ -1,0 +1,19 @@
+name: Nivel 1 - Hola Actions
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  saludo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar codigo del repositorio
+        uses: actions/checkout@v4
+
+      - name: Ejecutar un comando simple en la nube
+        run: |
+          echo "¡Hola desde la nube de GitHub Actions!"
+          echo "Ejecutando en el commit: ${{ github.sha }}"
